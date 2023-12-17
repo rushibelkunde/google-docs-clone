@@ -7,9 +7,10 @@ const db = require('./configs/db')
 
 const cors = require('cors')
 
-app.use(cors({credentials: true, origin: "https://google-docs-clone-pied-iota.vercel.app"}));
+app.use(cors());
 
-const io = require('socket.io')(server, {
+const io = require('socket.io')(server,
+    {
     cors: {
         origin: 'https://google-docs-clone-pied-iota.vercel.app',
         methods: ['GET', 'POST']

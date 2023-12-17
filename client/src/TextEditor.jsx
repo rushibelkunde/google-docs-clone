@@ -55,7 +55,7 @@ const TextEditor = () => {
 
 
     useEffect(()=>{
-        const s = io("https://git.heroku.com/google-docs-clone.git")
+        const s = io("https://google-docs-clone-3e8cbb21dc27.herokuapp.com/")
         setSocket(s)
         return ()=>{
             s.disconnect()
