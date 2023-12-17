@@ -5,6 +5,10 @@ const server = http.createServer(app);
 const Document = require('./models/Document')
 const db = require('./configs/db')
 
+const cors = require('cors')
+
+app.use(cors({credentials: true, origin: "https://google-docs-clone-pied-iota.vercel.app"}));
+
 const io = require('socket.io')(server, {
     cors: {
         origin: 'https://google-docs-clone-pied-iota.vercel.app',
