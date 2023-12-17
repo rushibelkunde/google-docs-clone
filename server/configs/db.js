@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb+srv://rushibelkunde18:skS3NK7pdNC7RZ9l@cluster0.oq669rh.mongodb.net/google-docs-clone?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DB_URI, {
     // useNewUrlParser: true,
     // useUnifiedTopology: true,
     // useFindAndModify: false,
@@ -16,7 +16,4 @@ db.once('open',()=>{
 
 module.exports = db;
 
-// rushibelkunde18
-// skS3NK7pdNC7RZ9l
 
-// mongodb+srv://rushibelkunde18:<password>@cluster0.oq669rh.mongodb.net/?retryWrites=true&w=majority
