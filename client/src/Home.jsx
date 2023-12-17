@@ -18,7 +18,7 @@ const Home = () => {
 
     // connecting to socket
     useEffect(() => {
-        const s = io("http://localhost:5000")
+        const s = io("https://google-docs-clone-server-phi.vercel.app")
         setSocket(s)
         console.log(s)
         return () => {
