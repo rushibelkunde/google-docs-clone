@@ -1,6 +1,3 @@
-Certainly! Below is a sample `README.md` file for your Google Docs clone web app:
-
-```markdown
 # Google Docs Clone
 
 A real-time collaborative document editing web application inspired by Google Docs. This project is built using Express, React, Socket.io, and MongoDB.
