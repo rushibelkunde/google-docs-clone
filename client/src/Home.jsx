@@ -55,7 +55,7 @@ const Home = () => {
                     cursor-pointer flex justify-center items-center hover:border-blue-400'
                     onClick={() => { navigate(`/documents/${uuidV4()}`) }}>
 
-                    <h1 className=' text-xl font-semibold text-neutral-400 '>+ Add Document</h1>
+                   <img src="add.png" alt="" />
 
                 </div>
 
