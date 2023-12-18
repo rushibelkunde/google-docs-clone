@@ -19,6 +19,7 @@ const Home = () => {
     // connecting to socket
     useEffect(() => {
         const s = io("https://google-docs-clone-3e8cbb21dc27.herokuapp.com/")
+        // const s = io("http://localhost:5000")
         setSocket(s)
         console.log(s)
         return () => {
@@ -37,13 +38,18 @@ const Home = () => {
         })
     }, [socket])
 
+    const handleDelete = (id)=>{
+        if (socket == null) return
+        socket.emit('delete-doc', id)
+    }
+
     return (
 
         <div className=' bg-neutral-100'>
             <Navbar />
             <p className='text-center m-4 text-zinc-600'>Start a new document</p>
 
-            <div className='flex justify-center gap-5'>
+            <div className='flex justify-center gap-5 flex-wrap'>
 
                 <div className='h-[250px] w-[180px] border border-zinc-200 bg-white 
                     cursor-pointer flex justify-center items-center hover:border-blue-400'
@@ -55,10 +61,17 @@ const Home = () => {
 
 
                 {docs?.map((doc) => (
+                    <div className='flex flex-col'>
                     <div className='h-[250px] w-[180px] border border-zinc-200 bg-white 
                         cursor-pointer flex  hover:border-blue-400 p-3'
                         onClick={() => { navigate(`/documents/${doc._id}`) }}>
-                        <h1 className=' text-[5px] text-gray-900 '>{doc.data.ops.map((l)=>l.insert)}</h1>
+                        <h1 className=' text-[5px] text-gray-900 '>{doc.data?.ops?.map((l)=>l.insert)}</h1>
+                    </div>
+                    <div className='flex justify-around items-center mt-2'>
+                    <span className='text-sm font-light'>{doc.name? doc.name : "Untitled Document"}</span>
+                    <img src="delete.png" alt="" className=' w-4 object-contain opacity-60  hover:opacity-100'
+                    onClick={()=>handleDelete(doc._id)} />
+                    </div>
                     </div>
 
 

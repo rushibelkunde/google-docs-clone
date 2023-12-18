@@ -4,6 +4,18 @@ import "quill/dist/quill.snow.css"
 import {io} from 'socket.io-client'
 import { useParams } from 'react-router-dom'
 
+const TOOLBAR_OPTIONS = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ align: [] }],
+    ["image", "blockquote", "code-block"],
+    ["clean"],
+  ]
+
 
 
 const TextEditor = () => {
@@ -11,12 +23,17 @@ const TextEditor = () => {
     const [socket, setSocket] = useState()
     const [quill, setQuill] = useState()
 
+    const [docName, SetDocName] = useState()
+
     const wrapperRef = useCallback((wrapper)=>{
         if(!wrapper) return
         wrapper.innerHTML = ''
         const editor = document.createElement('div') 
         wrapper.append(editor)
-        const q =new Quill(editor,{theme: "snow"})
+        const q =new Quill(editor,{
+            theme: "snow",
+            modules: { toolbar: TOOLBAR_OPTIONS },
+        })
         q.disable()
         q.setText('Loading...')
         setQuill(q)
@@ -56,7 +73,10 @@ const TextEditor = () => {
 
     useEffect(()=>{
         const s = io("https://google-docs-clone-3e8cbb21dc27.herokuapp.com/")
+        // const s = io("http://localhost:5000")
         setSocket(s)
+
+        
         return ()=>{
             s.disconnect()
         }
@@ -65,17 +85,33 @@ const TextEditor = () => {
     useEffect(()=>{
         if(socket==null || quill ==null) return 
         socket.once("load-document", document=> {
-            quill.setContents(document)
+            quill.setContents(document.data)
             quill.enable()
+            SetDocName(document.name? document.name: "Untitled Document")
         })
         socket.emit('get-document', documentId)
 
     },[socket, quill, documentId])
 
+    useEffect(()=>{
+        if(socket==null || quill ==null) return 
+        socket.emit('docname-change', docName)
+    },[docName, socket])
+
+
+
    
 
   return (
-    <div className="container" ref={wrapperRef}></div>
+
+    <>
+    <div className='top-0 fixed z-10 ml-40'>
+    <input type="text" placeholder='Untitled Document' value={docName} className='p-2 bg-transparent focus:outline-zinc-600'
+    onChange={(e)=> SetDocName(e.target.value)}/>
+    </div>
+    <div className="container" ref={wrapperRef}>
+    </div>
+    </>
   )
 }
 

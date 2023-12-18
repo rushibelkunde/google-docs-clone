@@ -13,6 +13,7 @@ const io = require('socket.io')(server,
     {
     cors: {
         origin: 'https://google-docs-clone-pied-iota.vercel.app',
+        // origin: 'http://localhost:3000',
         methods: ['GET', 'POST']
     }
 })
@@ -29,17 +30,27 @@ io.on("connection", socket => {
         socket.emit("send-documents", documents)
     })
 
+    socket.on("delete-doc", async (id)=> {
+        await Document.findByIdAndDelete(id)
+        const documents = await Document.find({})
+        socket.emit("send-documents", documents)
+    })
+
     // sending specific document and changes
     socket.on('get-document', async(documentId) => {
         const document = await findOrCreateDocument(documentId)
         socket.join(documentId)
-        socket.emit('load-document', document.data)
+        socket.emit('load-document', document)
         socket.on('send-changes', delta=>{
         console.log(delta)
         socket.broadcast.to(documentId).emit("receive-changes", delta)
     })
     socket.on("save-document", async(data)=>{
             await Document.findByIdAndUpdate(documentId, {data})
+    })
+
+    socket.on("docname-change", async (docname)=> {
+        await Document.findByIdAndUpdate(documentId, {name: docname})
     })
 })
 })
