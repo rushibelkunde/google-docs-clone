@@ -22,7 +22,6 @@ const TextEditor = () => {
     const {id: documentId} = useParams()
     const [socket, setSocket] = useState()
     const [quill, setQuill] = useState()
-
     const [docName, SetDocName] = useState()
 
     const wrapperRef = useCallback((wrapper)=>{
@@ -105,7 +104,7 @@ const TextEditor = () => {
   return (
 
     <>
-    <div className='top-0 fixed z-10 ml-40'>
+    <div className='top-0 fixed z-10 w-full bg-[#f3f3f3] flex justify-center'>
     <input type="text" placeholder='Untitled Document' value={docName} className='p-2 bg-transparent focus:outline-zinc-600'
     onChange={(e)=> SetDocName(e.target.value)}/>
     </div>

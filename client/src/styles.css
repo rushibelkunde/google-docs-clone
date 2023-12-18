@@ -14,7 +14,7 @@ body{
     margin: 1rem;
     box-shadow: 0 0 5px 0 rgba(0,0,0,.5);
     background-color: white;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .container .ql-container.ql-snow{
@@ -26,13 +26,15 @@ body{
 .container .ql-toolbar.ql-snow{
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     position: fixed;
     width: 100%;
-    top: 0;
+    top: 40px;
     z-index: 1;
     background-color: #f3f3f3;
     border: none;
     box-shadow: 0 0 5px 0 rgba(0,0,0,.5);
+   
 }
 
 @page {
